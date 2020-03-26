@@ -9,23 +9,14 @@ export default class AuthForm extends Component{
     state = {
         login: '',
         password: '',
-        authBool: false,
     };
 
     updateAuthDate = (event, nameState) => {
 
-        if ((this.state.login !== '') && (this.state.password !== '')) {
-            this.setState({authBool: true});
-            console.log(this.state.authBool);
-        } else {
-            this.setState({authBool: false});
-            console.log(this.state.authBool);
-
-        }
-
         this.setState({
             [nameState]: event.target.value
         });
+        this.buttonColor();
     };
 
     tryAuth = () => {
@@ -43,9 +34,10 @@ export default class AuthForm extends Component{
     };
 
     buttonColor = () => {
-            return this.state.authBool ? 'rgba(224,218,218,0.7)' : 'rgba(224,218,218,0.2)';
+        return ((this.state.login !== '') && (this.state.password !== ''))?
+            'rgba(224,218,240,0.9)':
+            'rgba(224,218,218,0.2)';
     };
-
 
     render() {
         return (

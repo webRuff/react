@@ -11,3 +11,9 @@ export default class HomePage extends Component {
         )
     }
 }
+/*
+to do:
+* Подключить файл normalize
+* выход с homePage на страницу авторизации
+* выводить имя юзера строкой на home page
+* */
