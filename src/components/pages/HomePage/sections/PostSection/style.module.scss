@@ -1,0 +1,10 @@
+.wrapper{
+  margin-right: 30px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  padding: 0 20px;
+  overflow: scroll;
+  background: url('../../../../../assets/img/j.jpg');
+  scroll-behavior: smooth; //плавная прокрутка
+}

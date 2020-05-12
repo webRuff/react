@@ -5,7 +5,6 @@ import concatClasses from "../../../utils/concatClasses";
 export default class Page extends Component {
 
     render(){
-        console.log(this.props);
         return (
             <div className={concatClasses(styles.wrapper,  this.props.addStyle)}>
                 {this.props.children}

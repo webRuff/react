@@ -4,8 +4,12 @@ import TextInput from "../../../common/TextInput";
 import AcceptButton from "../../../common/AcceptButton";
 import PasswordInput from "../../../common/PasswordInput";
 import Server from '../../../mockServer'
+import {connect} from "react-redux";
+import globalActions from "../../../../actions/globalActions";
+import mapStateToProps from "../../../../reducers/mapStateToProps";
+import mapActionsToProps from "../../../../actions/mapActionsToProps";
 
-export default class AuthForm extends Component{
+export class AuthForm extends Component{
     state = {
         login: '',
         password: '',
@@ -25,8 +29,7 @@ export default class AuthForm extends Component{
                 login: this.state.login,
                 password: this.state.password,
             });
-            this.props.setLoggedUser(user);
-            console.log('--------->Logged');
+            this.props.setUserAction(user);
         } catch (error) {
             console.log(error);
             alert('Неверный логин/пароль');
@@ -39,6 +42,7 @@ export default class AuthForm extends Component{
             'rgba(224,218,218,0.2)';
     };
 
+
     render() {
         return (
             <div className={styles.wrapper}>
@@ -50,3 +54,7 @@ export default class AuthForm extends Component{
         )
     }
 }
+
+
+
+export default connect (()=>null, mapActionsToProps)(AuthForm);
