@@ -1,20 +1,17 @@
 .wrapper {
-  font-family: 'Open Sans Condensed', sans-serif;
-  text-decoration: none;
-  position: relative;
+  margin-bottom: 25px;
+  padding-left: 20px;
+
   width: 80%;
-  display: block;
-  margin: 9px auto;
-  font-size: 17px;
+  height: 40px;
+
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 18px;
   color: #fff;
-  padding: 8px;
+
   border-radius: 6px;
   border: none;
-  background: rgba(3,3,3,.1);
-  -webkit-transition: all 2s ease-in-out;
-  -moz-transition: all 2s ease-in-out;
-  -o-transition: all 2s ease-in-out;
-  transition: all 0.2s ease-in-out;
+  background: rgba(255,255,255,.1);
 }
 
 .wrapper:focus{

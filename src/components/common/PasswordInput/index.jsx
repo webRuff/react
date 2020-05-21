@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import styles from './style.module.scss';
+import styles from '../TextInput/style.module.scss';
 
 export default class PasswordInput extends Component{
 

@@ -4,6 +4,8 @@ import {connect} from "react-redux";
 import mapActionsToProps from "../../../../../../actions/mapActionsToProps";
 import mapStateToProps from "../../../../../../reducers/mapStateToProps";
 import axios from "axios";
+import pushLocation from "../../../../../../utils/pushLocation";
+import concatClasses from "../../../../../../utils/concatClasses";
 
 export class PostModalWindow extends Component {
     state = {
@@ -14,13 +16,12 @@ export class PostModalWindow extends Component {
     createPostOk = async (postHeader, postContent ) => {
         try {
             const {data: { post }, } = await axios.post('http://localhost:8888/api/posts', {
-                id: Math.random(),
+                id: Math.random(), //?проверить как будет работать без этой строки id в mongoose
                 header: postHeader,
                 content: postContent,
+                postAuthor: this.props.user.name,
             });
-            console.log(this.state.postHeader);
-            this.props.postModalWindowAction();
-            this.props.clearAllPost();
+            pushLocation('/home');
         }
         catch (e) {
             console.error(e);
@@ -28,8 +29,7 @@ export class PostModalWindow extends Component {
     };
 
     createPostCancel = () => {
-        this.props.postModalWindowAction();
-        this.props.clearAllPost();
+        pushLocation('/home');
     };
 
     addHeaderToPost = (event) => {

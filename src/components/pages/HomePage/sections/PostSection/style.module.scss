@@ -1,10 +1,28 @@
-.wrapper{
+.postsSectionContainer{
+  width: 100%;
+  height: 100%;
   margin-right: 30px;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  padding: 0 20px;
   overflow: scroll;
-  background: url('../../../../../assets/img/j.jpg');
+  background: linear-gradient(to bottom left, #e3faf8, #b3fcf8);
+}
+.wrapper{
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+
   scroll-behavior: smooth; //плавная прокрутка
+}
+
+.bestPostsContainer {
+  width: 100%;
+  height: 200px;
+  background: rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.postModalWindowIsOpened {
+  display: none;
 }

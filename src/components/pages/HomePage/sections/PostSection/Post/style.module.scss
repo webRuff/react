@@ -1,11 +1,15 @@
 .wrapper {
+width: 100%;
+
+}
+
+.postWrapper {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  background: rgba(0,0,0,0.30);
+  background: rgba(0,0,0,0.3);
   border-radius: 10px;
   padding: 20px;
-  margin: 10px 10px;
+  margin: 10px 10px 0 30px;
   height: 120px;
   overflow: hidden;
   header {
@@ -20,16 +24,17 @@
 .opened {
   height: auto;
 }
-.postNav{
+.postAttribs{
   width: 100%;
+  height: 22px;
   margin-top: 0;
   display: flex;
   flex-direction: row ;
   justify-content: flex-end;
 }
 
-.postNavContainer {
-  width: 100px;
+.postAttribsContainer {
+  width: auto;
   display: flex;
   flex-direction: row ;
   justify-content: center;
@@ -50,6 +55,7 @@
 }
 
 .likedCount {
+  text-align: center;
   font-size: 18px;
   font-weight: 700;
   color: brown;
@@ -59,7 +65,16 @@
 }
 
 .notLikedCount {
+  text-align: center;
   font-size: 16px;
   font-weight: 700;
   color: #000;
+}
+
+.authorContainer {
+  width: 100%;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
 }

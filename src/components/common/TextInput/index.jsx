@@ -9,9 +9,9 @@ export default class TextInput extends Component{
             <input
                 type = {'text'}
                 className={styles.wrapper}
-                placeholder={'Name'}
+                placeholder={'Email'}
                 onChange= {
-                    (event) => { this.props.updateAuthDate (event, 'login')}
+                    (event) => { this.props.updateAuthDate (event, 'email')}
                 }
             />
 

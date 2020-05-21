@@ -8,10 +8,10 @@ import {connect} from "react-redux";
 import mapActionsToProps from "../../../../actions/mapActionsToProps";
 import pushLocation from "../../../../utils/pushLocation";
 import axios from 'axios';
-import preStorageProcessing from "../../../../utils/preStorageProcessing";
 
-export class AuthForm extends Component{
+export class RegForm extends Component{
     state = {
+        login: '',
         email: '',
         password: '',
     };
@@ -24,23 +24,6 @@ export class AuthForm extends Component{
         this.buttonColor();
     };
 
-    tryAuth = async () => {
-        try {
-            const {data: {user, status} } = await axios.post('http://localhost:8888/api/signin',{
-                email: this.state.email,
-                password: this.state.password,
-                });
-            if(status==='false'){
-                alert('Неверный логин/пароль');
-                return ;
-            }
-                this.props.setUserAction(user);
-            alert(preStorageProcessing.toString(user));
-                pushLocation('/home');
-        } catch (error) {
-                alert(error);
-        }
-    };
 
     buttonColor = () => {
         return ((this.state.login !== '') && (this.state.password !== ''))?
@@ -48,31 +31,45 @@ export class AuthForm extends Component{
             'rgba(224,218,218,0.2)';
     };
 
-    goToReg = () => {
+    addUser = async (login, email, password) => {
         try {
-            const user = {name: 'tmp', login: 'tmp', password: 'tmp'};
-            this.props.setUserAction(user);
-            pushLocation('/newUser');
+            await axios.post('http://localhost:8888/api/signup', {
+                name: login,
+                email: email,
+                password: password,
+            })
+            this.goToSign();
+        }
+        catch (e) {
+            console.error(e);
+        }
+    };
+
+    goToSign = () => {
+        try {
+            this.props.setUserAction(null);
+            pushLocation('/');
         } catch (error) {
-            alert('Неверный логин/пароль');
+            alert(error);
         }
     }
 
-
     render() {
         return (
+            <div className={styles.regFormContainer}>
             <div className={styles.wrapper}>
                 <img className={styles.avatar} src={require("../../../../assets/img/icons/avatar.png")}/>
 
                 <h2>Welcome</h2>
+                <input placeholder={'Login'} onChange={(event)=> this.updateAuthDate(event, 'login')} className={styles.emailInput}/>
                 <TextInput updateAuthDate = {this.updateAuthDate}/>
                 <PasswordInput updateAuthDate = {this.updateAuthDate}/>
-                <AcceptButton background = {{background: this.buttonColor() }} text = {'Ok'} submit = {this.tryAuth}/>
-                <div className={styles.regLinkContainer}>
-                    <h3 className={styles.regLink} onClick={this.goToReg}>registration</h3>
+                <AcceptButton background = {{background: this.buttonColor() }} text = {'Ok'}
+                              submit = {()=>{this.addUser(this.state.login, this.state.email, this.state.password)}}/>
+                <div className={styles.singLinkContainer}>
+                    <h3 className={styles.singLink} onClick={this.goToSign}>sign in</h3>
                 </div>
-
-
+            </div>
             </div>
         )
     }
@@ -80,4 +77,4 @@ export class AuthForm extends Component{
 
 
 
-export default connect (()=>null, mapActionsToProps)(AuthForm);
+export default connect (()=>null, mapActionsToProps)(RegForm);

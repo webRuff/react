@@ -21,5 +21,8 @@ export default (dispatch) => ({
     },
     postModalWindowAction: () => {
         dispatch(actions.postModalWindowAction());
-    }
+    },
+    createBestPostsAction: () => {
+        dispatch(actions.createBestPostsAction());
+    },
 });

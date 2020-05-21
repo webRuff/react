@@ -37,5 +37,11 @@ export default {
         return {
             type: ActionTypes.postModalWindowAction,
         }
+    },
+    [ActionTypes.addLikedPost](likedPostId){
+        return {
+            type: ActionTypes.addLikedPost,
+            payload: likedPostId,
+        }
     }
 }

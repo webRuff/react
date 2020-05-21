@@ -3,7 +3,6 @@ import ActionTypes from "../actions/ActionTypes";
 export const initState  = {
     user: null,
     posts: [],
-    postModalWindow: false,
 };
 
 export const globalReducer = (state = initState, action) => {
@@ -17,10 +16,11 @@ export const globalReducer = (state = initState, action) => {
       case ActionTypes.clearAllPost:
           return {...state, posts: []};
       case ActionTypes.deletePostAction:
-          const newPosts = state.posts.filter(post => post.id !== action.payload);
+          const newPosts = state.posts.filter(post => post["_id"] !== action.payload);
           return {...state, posts: newPosts};
-      case ActionTypes.postModalWindowAction:
-          return {...state, postModalWindow: !state.postModalWindow};
+      case ActionTypes.addLikedPost:
+          const newUser = state.user.likedPosts.push(action.payload);
+          return  {...state, user: newUser};
       default:
           return {...state };
   }
