@@ -18,6 +18,20 @@ export class PostSection extends Component {
 
     fetchPosts = async () => {
         try {
+            const userId = this.props.user['_id'];
+            const {data: {likedPosts}} =
+                await  axios.get('http://localhost:8888/api/likedPosts/getByUserId/' + userId,
+                );
+            if(!likedPosts){
+                await axios.post('http://localhost:8888/api/likedPosts', {
+                    userId: this.props.user['_id'],
+                });
+                const likedPosts =
+                    await  axios.get('http://localhost:8888/api/likedPosts/getByUserId/' + userId);
+                alert('2:' + likedPosts);
+            }
+            this.props.setLikedPostAction(likedPosts);
+
             const { data } = await axios.get('http://localhost:8888/api/posts');
             this.props.writePosts(data.reverse());
         } catch (e) {
@@ -29,17 +43,16 @@ export class PostSection extends Component {
         pushLocation('/createPost');
     };
 
-   /*deleteLastPost = async () => {
-       const lastPost = this.props.posts[this.props.posts.length -1];
-       try{
-           await axios({
-               url: 'http://localhost:8888/api/posts/' + lastPost.id,
-               method: "DELETE",
-           });
-           this.props.deletePostAction(lastPost.id);
-       } catch (e) {
-       }
-    };*/
+
+    toggleMySubIcon = (postAuthor) => {
+        return this.props.user.mySubs.includes(postAuthor);
+    };
+
+    toggleLiked = (PostId) => {
+        //console.log('includes: ' + this.props.laked.includes(PostId));
+        return this.props.laked.includes(PostId);
+
+    };
 
    deletePost = async (postId) => {
       try{
@@ -52,28 +65,24 @@ export class PostSection extends Component {
        this.props.deletePostAction(postId);
    };
 
-   togglePostModalWindow = () => {
-
-   };
-
-   toggleMySubIcon = (postAuthor) => {
-     return this.props.user.mySubs.includes(postAuthor);
-   };
-
-    toggleLiked = (PostId) => {
-        //console.log('----->' + this.props.user.likedPosts.includes(PostId));
-        return this.props.user.likedPosts.includes(PostId);
+    addLikedPostToUser = (postId) => {
+        const likedPosts =  this.props.laked;
+        likedPosts.push(postId);
+        console.log('addLikedPostToUser: ' + Array.isArray(likedPosts));
+        this.props.setLikedPostAction(likedPosts);
     };
 
-
-
+    removeLikedPostToUser = (postId) => {
+        const tmp = this.props.laked;
+        const strLikedPosts = tmp.filter(post=>post!==postId);
+        this.props.setLikedPostAction(strLikedPosts);
+    };
 
     render() {
         return (
             <div className={styles.postsSectionContainer}>
                 <div style={{textAlign: "center", margin: 5, fontSize: 25, color: "#4575D4"}}>Лучшее за неделю</div>
                 <div className={styles.bestPostsContainer}>
-
                     <BestPosts/>
                 </div>
             <div className={styles.wrapper}>
@@ -89,10 +98,16 @@ export class PostSection extends Component {
                                           this.deletePost(post["_id"])
                                       }}
                                       likeCount= {post.likesCount}
-                                      liked = {this.toggleLiked(post["_id"])}
+                                      isLiked = {this.toggleLiked(post["_id"])}
                                       postAuthor = {post.postAuthor}
                                       mySubIcon = {this.toggleMySubIcon(post.postAuthor)}
                                       user = {this.props.user}
+                                      addLikedPostToUser = {()=>{
+                                          this.addLikedPostToUser(post["_id"])
+                                      }}
+                                      removeLikedPostToUser = {() => {
+                                            this.removeLikedPostToUser(post["_id"])
+                                      }}
                                 />);
                         })
                     }

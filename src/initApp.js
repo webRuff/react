@@ -16,5 +16,13 @@ export default (store) => {
         type: "setUserAction",
         payload: user,
     });
-    if(!user) pushLocation('/');
+
+    if(!user || user.name === 'tmp') pushLocation('/');
+ /*   else {
+        alert('dispatch');
+        store.dispatch({
+            type: "setLikedPostAction",
+            payload: user.likedPosts
+        });
+    }*/
 }

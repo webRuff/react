@@ -9,6 +9,8 @@ import mapActionsToProps from "../../../../actions/mapActionsToProps";
 import pushLocation from "../../../../utils/pushLocation";
 import axios from 'axios';
 import preStorageProcessing from "../../../../utils/preStorageProcessing";
+import mapStateToProps from "../../../../reducers/mapStateToProps";
+import {PostSection} from "../../HomePage/sections/PostSection";
 
 export class AuthForm extends Component{
     state = {
@@ -26,16 +28,18 @@ export class AuthForm extends Component{
 
     tryAuth = async () => {
         try {
-            const {data: {user, status} } = await axios.post('http://localhost:8888/api/signin',{
+            const {data: {user} } = await axios.post('http://localhost:8888/api/signin',{
                 email: this.state.email,
                 password: this.state.password,
                 });
-            if(status==='false'){
+            if(!user) {
                 alert('Неверный логин/пароль');
-                return ;
+                return;
             }
                 this.props.setUserAction(user);
-            alert(preStorageProcessing.toString(user));
+
+
+
                 pushLocation('/home');
         } catch (error) {
                 alert(error);
@@ -50,13 +54,15 @@ export class AuthForm extends Component{
 
     goToReg = () => {
         try {
-            const user = {name: 'tmp', login: 'tmp', password: 'tmp'};
+            const user = {name: 'tmp', login: 'tmp', password: 'tmp', likedPosts: []};
             this.props.setUserAction(user);
             pushLocation('/newUser');
         } catch (error) {
             alert('Неверный логин/пароль');
         }
     }
+
+
 
 
     render() {
@@ -71,8 +77,6 @@ export class AuthForm extends Component{
                 <div className={styles.regLinkContainer}>
                     <h3 className={styles.regLink} onClick={this.goToReg}>registration</h3>
                 </div>
-
-
             </div>
         )
     }
@@ -80,4 +84,4 @@ export class AuthForm extends Component{
 
 
 
-export default connect (()=>null, mapActionsToProps)(AuthForm);
+export default connect (mapStateToProps.global, mapActionsToProps)(AuthForm);

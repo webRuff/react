@@ -7,5 +7,6 @@ export default {
     deletePostAction: "deletePostAction",
     deleteLastPostAction: "deleteLastPostAction",
     postModalWindowAction: "postModalWindowAction",
-    addLikedPost: "addLikedPost",
+    addLikedPostAction: "addLikedPostAction",
+    setLikedPostAction: "setLikedPostAction",
 }

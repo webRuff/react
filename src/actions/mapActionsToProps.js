@@ -22,7 +22,11 @@ export default (dispatch) => ({
     postModalWindowAction: () => {
         dispatch(actions.postModalWindowAction());
     },
-    createBestPostsAction: () => {
-        dispatch(actions.createBestPostsAction());
+    addLikedPostAction: () => {
+        dispatch(actions.addLikedPostAction());
     },
+    setLikedPostAction: (likedPost) => {
+        dispatch(actions.setLikedPostAction(likedPost));
+    },
+
 });

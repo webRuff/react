@@ -8,13 +8,14 @@ import mapStateToProps from "../../../../../../reducers/mapStateToProps";
 import mapActionsToProps from "../../../../../../actions/mapActionsToProps";
 import UserHelper from "../../../../../../utils/userHelper";
 import axios from 'axios';
+import preStorageProcessing from "../../../../../../utils/preStorageProcessing";
 
 
 export default class Post extends Component{
     state = {
         isOpened: false,
         likeCount: this.props.likeCount,
-        liked: this.props.liked
+        isLiked: this.props.isLiked
     };
 
     toggleHeightPost = () => {
@@ -32,31 +33,33 @@ export default class Post extends Component{
             return concatClasses(styles.postWrapper, styles.opened);
         };
     togglePostLikeClassName = () => {
-      if (this.state.liked)
+      if (this.state.isLiked)
           return styles.likedCount;
         else
             return styles.notLikedCount;
     };
     likeCounter = () => {
-        if(!this.state.liked) {
-            this.setState({liked: !this.state.liked});
+        if(!this.state.isLiked) {
+            this.setState({isLiked: !this.state.isLiked});
             this.setState({likeCount: this.state.likeCount + 1});
             this.addLikeMongoose();
-            UserHelper.addLikedPostToUser(this.props.self["_id"]);
+            this.props.addLikedPostToUser();
         }
         else {
-            this.setState({liked: !this.state.liked});
+            this.setState({isLiked: !this.state.isLiked});
             this.setState({likeCount: this.state.likeCount - 1});
             this.removeLikeMongoose();
+            this.props.removeLikedPostToUser();
         }
     };
 
     addLikeMongoose = async () => {
         try{
-                await axios.put('http://localhost:8888/api//users/addLike', {
-                    id: this.props.user["_id"],
-                    likedPosts: this.props.self["_id"]
+                await axios.put('http://localhost:8888/api/likedPosts/addLike', {
+                    userId: this.props.user["_id"],
+                    likedPostsId: this.props.self["_id"]
                 })
+                await axios.put('http://localhost:8888/api/posts/addLike/' + this.props.self["_id"],)
             } catch (e) {
             console.log(e);
         }
@@ -64,10 +67,11 @@ export default class Post extends Component{
 
     removeLikeMongoose = async () => {
         try{
-            await axios.put('http://localhost:8888/api/users/removeLike', {
-                id: this.props.user["_id"],
+            await axios.put('http://localhost:8888/api/likedPosts/removeLike', {
+                userId: this.props.user["_id"],
                 unLikePostId: this.props.self["_id"]
             })
+            await axios.put('http://localhost:8888/api/posts/removeLike/' + this.props.self["_id"],)
         } catch (e) {
             console.log(e);
         }
@@ -79,10 +83,6 @@ export default class Post extends Component{
         else
             return '-'
     };
-
-    addSub = async (postAuthor) => {
-
-    }
 
     render() {
         return (
