@@ -5,6 +5,7 @@ export const initState  = {
     user: null,
     posts: [],
     laked: [],
+    bestPosts: [],
 };
 
 export const globalReducer = (state = initState, action) => {
@@ -13,7 +14,6 @@ export const globalReducer = (state = initState, action) => {
           return {...state, user: action.payload};
       case ActionTypes.setLikedPostAction:
           const lakedPosts = action.payload;
-          //alert('reducer: ' +  Array.isArray(lakedPosts) + '--->' + lakedPosts);
           return {...state, laked: lakedPosts};
       case ActionTypes.unsetUserAction:
           return {...state, user: null, posts: []};
@@ -25,9 +25,11 @@ export const globalReducer = (state = initState, action) => {
           const newPosts = state.posts.filter(post => post["_id"] !== action.payload);
           return {...state, posts: newPosts};
       case ActionTypes.addLikedPostAction:
-          alert('newLikedPosts' + action.payload);
           const newLikedPosts = state.laked.push(action.payload);
           return  {...state, laked: newLikedPosts};
+      case ActionTypes.setBestPostsAction:
+          const newBestPosts = state.posts.slice().sort((post1, post2) => post1.likesCount > post2.likesCount ? -1 : 1).slice(0,action.payload)
+          return  {...state, bestPosts: newBestPosts}
       default:
           return {...state };
   }

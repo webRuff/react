@@ -28,5 +28,8 @@ export default (dispatch) => ({
     setLikedPostAction: (likedPost) => {
         dispatch(actions.setLikedPostAction(likedPost));
     },
+    setBestPostsAction: (bestPosts) => {
+        dispatch(actions.setBestPostsAction(bestPosts));
+    },
 
 });

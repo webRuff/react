@@ -8,12 +8,15 @@ import {connect} from "react-redux";
 import mapActionsToProps from "../../../../actions/mapActionsToProps";
 import pushLocation from "../../../../utils/pushLocation";
 import axios from 'axios';
+import {userImg} from '../../../../assets/assets'
 
 export class RegForm extends Component{
     state = {
         login: '',
         email: '',
         password: '',
+        userImg: userImg.userImg2,
+        userImgPosition: 0,
     };
 
     updateAuthDate = (event, nameState) => {
@@ -54,7 +57,30 @@ export class RegForm extends Component{
         }
     }
 
+    toggleUserImg = () => {
+        switch (this.state.userImgPosition) {
+            case 0:
+                this.setState({userImg: userImg.unknown});
+                this.setState({userImgPosition: 1});
+                break;
+            case 1:
+                this.setState({userImg: userImg.userImg1});
+                this.setState({userImgPosition: 2});
+                break;
+            case 2:
+                this.setState({userImg: userImg.userImg2});
+                this.setState({userImgPosition: 3});
+                break;
+            case 3:
+                this.setState({userImg: userImg.userImg3});
+                this.setState({userImgPosition: 0});
+                break;
+        }
+
+    }
+
     render() {
+        console.log('userImg is ' + typeof this.state.userImg);
         return (
             <div className={styles.regFormContainer}>
             <div className={styles.wrapper}>
@@ -64,6 +90,9 @@ export class RegForm extends Component{
                 <input placeholder={'Login'} onChange={(event)=> this.updateAuthDate(event, 'login')} className={styles.emailInput}/>
                 <TextInput updateAuthDate = {this.updateAuthDate}/>
                 <PasswordInput updateAuthDate = {this.updateAuthDate}/>
+
+                <img className={styles.userImg} src={ this.state.userImg} onClick={this.toggleUserImg}/>
+
                 <AcceptButton background = {{background: this.buttonColor() }} text = {'Ok'}
                               submit = {()=>{this.addUser(this.state.login, this.state.email, this.state.password)}}/>
                 <div className={styles.singLinkContainer}>

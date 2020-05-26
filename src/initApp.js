@@ -17,7 +17,7 @@ export default (store) => {
         payload: user,
     });
 
-    if(!user || user.name === 'tmp') pushLocation('/');
+    if(!user || user.name !== 'tmp') pushLocation('/');
  /*   else {
         alert('dispatch');
         store.dispatch({

@@ -34,6 +34,9 @@ export class PostSection extends Component {
 
             const { data } = await axios.get('http://localhost:8888/api/posts');
             this.props.writePosts(data.reverse());
+
+            const countOfBestPosts = 4;
+            this.setBestPosts(countOfBestPosts);
         } catch (e) {
             console.log(e);
         }
@@ -49,7 +52,6 @@ export class PostSection extends Component {
     };
 
     toggleLiked = (PostId) => {
-        //console.log('includes: ' + this.props.laked.includes(PostId));
         return this.props.laked.includes(PostId);
 
     };
@@ -68,17 +70,26 @@ export class PostSection extends Component {
     addLikedPostToUser = (postId) => {
         const likedPosts =  this.props.laked;
         likedPosts.push(postId);
-        console.log('addLikedPostToUser: ' + Array.isArray(likedPosts));
         this.props.setLikedPostAction(likedPosts);
     };
 
     removeLikedPostToUser = (postId) => {
-        const tmp = this.props.laked;
-        const strLikedPosts = tmp.filter(post=>post!==postId);
+        const strLikedPosts = this.props.laked.filter(post=>post!==postId);
         this.props.setLikedPostAction(strLikedPosts);
     };
 
+    setBestPosts = (countOfBestPosts) => {
+        this.props.setBestPostsAction(countOfBestPosts);
+    }
+
+    checkUser = () => {
+        if(this.props.user.name === 'tmp') {
+            pushLocation('/newUser');
+        }
+    }
+
     render() {
+            this.checkUser();
         return (
             <div className={styles.postsSectionContainer}>
                 <div style={{textAlign: "center", margin: 5, fontSize: 25, color: "#4575D4"}}>Лучшее за неделю</div>
@@ -127,6 +138,7 @@ export class PostSection extends Component {
 
     componentDidMount() {
         this.fetchPosts();
+
     }
 /*
     componentWillUnmount() {

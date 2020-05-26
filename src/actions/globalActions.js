@@ -40,12 +40,6 @@ export default {
         }
     },
 
-    [ActionTypes.deleteLastPostAction](){
-        return {
-            type: ActionTypes.deleteLastPostAction,
-        }
-    },
-
     [ActionTypes.postModalWindowAction](){
         return {
             type: ActionTypes.postModalWindowAction,
@@ -58,5 +52,12 @@ export default {
             payload: likedPostId,
         }
     },
+
+    [ActionTypes.setBestPostsAction](bestPosts){
+        return {
+            type: ActionTypes.setBestPostsAction,
+            payload: bestPosts,
+        }
+    }
 
 }

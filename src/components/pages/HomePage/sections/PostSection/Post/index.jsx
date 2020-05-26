@@ -28,7 +28,7 @@ export default class Post extends Component{
 
     togglePostsClassName = () => {
         if (!this.props.unfolding)
-        return concatClasses(styles.postWrapper, this.state.isOpened && styles.opened);
+            return concatClasses(styles.postWrapper, this.state.isOpened && styles.opened);
         else
             return concatClasses(styles.postWrapper, styles.opened);
         };

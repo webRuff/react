@@ -2,9 +2,12 @@ import React, {Component} from "react";
 import styles from './style.module.scss';
 import NavButton from "./NavButton";
 import {connect} from 'react-redux'
-import store from "../../../../App"
 import mapActionsToProps from "../../../../actions/mapActionsToProps";
-import icons from "../../../../assets/assets"
+import icons from "../../../../assets/assets";
+import pushLocation from "../../../../utils/pushLocation";
+import preStorageProcessing from "../../../../utils/preStorageProcessing";
+import PostSection from "../sections/PostSection";
+import axios from "axios";
 
 export class NavBar extends Component{
 
@@ -18,12 +21,12 @@ export class NavBar extends Component{
             icon: icons.general,
         },
         {
-            label: 'Подписки',
+            label: 'Избранное',
             id: 2,
             icon: icons.subscription,
         },
         {
-            label: 'Комментарии',
+            label: 'Мои посты',
             id: 3,
             icon: icons.comments,
         },
@@ -36,9 +39,49 @@ export class NavBar extends Component{
         }
     }
 
-    //shouldComponentUpdate(nextProps, nextState, nextContext) {
-       // return nextState.activeButtonId !== this.state.activeButtonId || false
+    showGeneralPage = async () => {
+        this.props.clearAllPost();
+        const { data } = await axios.get('http://localhost:8888/api/posts');
+        this.props.writePosts(data.reverse());
 
+    };
+
+    showMyPosts = () => {
+        const myPosts = this.props.posts.filter(post => post.postAuthor === this.props.user.name);
+        this.props.clearAllPost();
+        this.props.writePosts(myPosts);
+    };
+
+    showFavorites = async () => {
+        const { data } = await axios.get('http://localhost:8888/api/posts');
+        const subs = this.props.user.mySubs.split(',');
+        const mySubs = data.filter(post =>
+            subs.includes(post.postAuthor)
+        );
+        //alert(preStorageProcessing.toString(mySubs));
+        this.props.clearAllPost();
+        this.props.writePosts(mySubs);
+    }
+
+    toggleButtonsFunc = (buttonId) => {
+        switch (buttonId) {
+            case 1 :
+                this.props.updateActiveButtonIdAction(buttonId);
+                this.showGeneralPage();
+                break;
+            case 2 :
+                this.props.updateActiveButtonIdAction(buttonId);
+                this.showFavorites();
+                break;
+            case 3:
+                this.props.updateActiveButtonIdAction(buttonId);
+                this.showMyPosts();
+                break;
+            case 4 :
+                this.props.updateActiveButtonIdAction(buttonId);
+                break;
+        }
+    }
 
     render() {
         return (
@@ -49,10 +92,12 @@ export class NavBar extends Component{
                             label = {button.label}
                             key= {button.id}
                             active= {this.props.activeButtonId === button.id}
-                            cb = {()=> {
+                            /*cb = {()=> {
                             this.props.updateActiveButtonIdAction(button.id);
-                            }}
+                            }}*/
                             icon = {button.icon}
+                            buttonsFunc = { () => { this.toggleButtonsFunc(button.id)}
+                            }
                         />
 
                         );

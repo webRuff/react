@@ -10,7 +10,7 @@ export default class NavButton extends Component{
                 <img className={styles.navButtonIcon} alt = '' src={this.props.icon}/>
                 <div className={concatClasses(styles.wrapper,
                     (this.props.active && styles.active) || '') }
-                    onClick={this.props.cb}>
+                    onClick={this.props.buttonsFunc}>
                     {this.props.label}
                 </div>
             </div>

@@ -12,8 +12,8 @@
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 500px;
-  width: 450px;
+  height: 620px;
+  width: 500px;
   box-shadow: 0 -5px 0 #3adbfd;
 
   background: rgba(24, 33, 52, 0.7);
@@ -48,6 +48,17 @@
   box-shadow: 3px 3px 10px #333;
   background: rgba(3,3,3,.18);
 }
+
+.userImg {
+  width: 120px;
+  height: 120px;
+  margin-bottom: 40px;
+}
+
+
+
+
+
 
 .singLinkContainer {
   text-align: center;

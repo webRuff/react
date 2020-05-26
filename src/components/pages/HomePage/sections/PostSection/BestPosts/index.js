@@ -7,19 +7,21 @@ import BestPost from './BestPost';
 
 
 export class BestPosts extends  Component {
+
     render()
+
     {
-        function sortPosts(posts) {
+        /*function sortPosts1(posts) {
             posts.sort((post1, post2) => post1.likesCount > post2.likesCount ? -1 : 1);
         }
 
         let tmp = this.props.posts;
-        sortPosts(tmp);
-        let bestPosts = tmp.slice(0,4);
-
+        sortPosts1(tmp);
+        let bestPosts1 = tmp.slice(0,4);
+*/
         return (
             <section className={styles.wrapper}> {
-                bestPosts.map((post) => {
+                this.props.bestPosts.map((post) => {
                     return (<BestPost className={styles.wrapper}
                                       key={post["_id"]}
                                       header={post.header}
@@ -31,5 +33,7 @@ export class BestPosts extends  Component {
         )
     }
 }
+
+
 
 export default connect (mapStateToProps.global, mapActionsToProps)(BestPosts);

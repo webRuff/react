@@ -9,4 +9,5 @@ export default {
     postModalWindowAction: "postModalWindowAction",
     addLikedPostAction: "addLikedPostAction",
     setLikedPostAction: "setLikedPostAction",
+    setBestPostsAction: "setBestPostsAction",
 }
