@@ -10,4 +10,6 @@ export default {
     addLikedPostAction: "addLikedPostAction",
     setLikedPostAction: "setLikedPostAction",
     setBestPostsAction: "setBestPostsAction",
+    addSubToUserAction: "addSubToUserAction",
+    removeSubFromUserAction: "removeSubFromUserAction",
 }

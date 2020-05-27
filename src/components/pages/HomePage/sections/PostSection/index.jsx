@@ -22,14 +22,6 @@ export class PostSection extends Component {
             const {data: {likedPosts}} =
                 await  axios.get('http://localhost:8888/api/likedPosts/getByUserId/' + userId,
                 );
-            if(!likedPosts){
-                await axios.post('http://localhost:8888/api/likedPosts', {
-                    userId: this.props.user['_id'],
-                });
-                const likedPosts =
-                    await  axios.get('http://localhost:8888/api/likedPosts/getByUserId/' + userId);
-                alert('2:' + likedPosts);
-            }
             this.props.setLikedPostAction(likedPosts);
 
             const { data } = await axios.get('http://localhost:8888/api/posts');
@@ -80,13 +72,51 @@ export class PostSection extends Component {
 
     setBestPosts = (countOfBestPosts) => {
         this.props.setBestPostsAction(countOfBestPosts);
+    };
+
+    addSubToUser = async (sub) => {
+        const newUser = this.props.user;
+        const subs = newUser.mySubs.split(',');
+        subs.push(sub);
+        const strSubs = subs.join(',');
+        newUser.mySubs = strSubs;
+        this.props.setUserAction(newUser);
+        try {
+            const { data } = await axios.get('http://localhost:8888/api/posts');
+            this.props.clearAllPost();
+            this.props.writePosts(data.reverse());
+        } catch (e) {
+            console.log(e);
+        }
+    };
+
+    removeSubFromUser = async (subToRemove) => {
+        const newUser = this.props.user;
+        const subs = newUser.mySubs.split(',');
+        const strSubs = subs.filter(sub => sub !== subToRemove).join(',');
+        newUser.mySubs = strSubs;
+        this.props.setUserAction(newUser);
+        try {
+            const { data } = await axios.get('http://localhost:8888/api/posts');
+            this.props.clearAllPost();
+            this.props.writePosts(data.reverse());
+        } catch (e) {
+            console.log(e);
+        }
     }
+
 
     checkUser = () => {
         if(this.props.user.name === 'tmp') {
             pushLocation('/newUser');
         }
-    }
+    };
+
+    showAuthorPosts = (postAuthor) => {
+        const authorPosts = this.props.posts.filter(post => post.postAuthor === postAuthor);
+        this.props.clearAllPost();
+        this.props.writePosts(authorPosts);
+    };
 
     render() {
             this.checkUser();
@@ -119,6 +149,14 @@ export class PostSection extends Component {
                                       removeLikedPostToUser = {() => {
                                             this.removeLikedPostToUser(post["_id"])
                                       }}
+                                      showAuthorPosts = {() => {
+                                          this.showAuthorPosts(post.postAuthor)
+                                      }}
+                                      addSubtoUser = {() => {this.addSubToUser(post.postAuthor)
+                                      }}
+                                      removeSubFromUser = {() => {this.removeSubFromUser(post.postAuthor)
+                                      }}
+                                      userAvatar = {this.props.user.userImg}
                                 />);
                         })
                     }

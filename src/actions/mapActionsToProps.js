@@ -31,5 +31,10 @@ export default (dispatch) => ({
     setBestPostsAction: (bestPosts) => {
         dispatch(actions.setBestPostsAction(bestPosts));
     },
-
+    addSubToUserAction: (sub) => {
+        dispatch(actions.addSubToUserAction(sub));
+    },
+    removeSubFromUserAction: (sub) => {
+        dispatch(actions.removeSubFromUserAction(sub));
+    },
 });

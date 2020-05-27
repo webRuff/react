@@ -31,7 +31,7 @@ export class NavBar extends Component{
             icon: icons.comments,
         },
         {
-            label: 'Настройки',
+            label: 'Статистика',
             id: 4,
             icon: icons.settings,
         }

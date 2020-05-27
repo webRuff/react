@@ -15,8 +15,9 @@ export class RegForm extends Component{
         login: '',
         email: '',
         password: '',
-        userImg: userImg.userImg2,
+        userAvatar: userImg.userImg2,
         userImgPosition: 0,
+        pathToAvatar: "../../../../../../assets/img/userImg/0.jpeg"
     };
 
     updateAuthDate = (event, nameState) => {
@@ -34,19 +35,26 @@ export class RegForm extends Component{
             'rgba(224,218,218,0.2)';
     };
 
-    addUser = async (login, email, password) => {
-        try {
+    addUser = async (login, email, password, pathToAvatar) => {
             await axios.post('http://localhost:8888/api/signup', {
                 name: login,
                 email: email,
                 password: password,
+                userImg: pathToAvatar,
             })
+            const {data: {user} } = await axios.post('http://localhost:8888/api/signin',{
+                email: email,
+                password: password,
+            });
+            await axios.post('http://localhost:8888/api/likedPosts', {
+                userId: user['_id'],
+            });
             this.goToSign();
         }
         catch (e) {
             console.error(e);
         }
-    };
+
 
     goToSign = () => {
         try {
@@ -60,27 +68,35 @@ export class RegForm extends Component{
     toggleUserImg = () => {
         switch (this.state.userImgPosition) {
             case 0:
-                this.setState({userImg: userImg.unknown});
+                this.setState({userAvatar: userImg.unknown});
                 this.setState({userImgPosition: 1});
+                this.setState({pathToAvatar: "../../../../../../assets/img/userImg/0.jpeg"});
                 break;
             case 1:
-                this.setState({userImg: userImg.userImg1});
+                this.setState({userAvatar: userImg.userImg1});
                 this.setState({userImgPosition: 2});
+                this.setState({pathToAvatar: "../../../../../../assets/img/userImg/1.jpeg"});
                 break;
             case 2:
-                this.setState({userImg: userImg.userImg2});
+                this.setState({userAvatar: userImg.userImg2});
                 this.setState({userImgPosition: 3});
+                this.setState({pathToAvatar: "../../../../../../assets/img/userImg/2.jpeg"});
                 break;
             case 3:
-                this.setState({userImg: userImg.userImg3});
+                this.setState({userAvatar: userImg.userImg3});
+                this.setState({userImgPosition: 4});
+                this.setState({pathToAvatar: "../../../../../../assets/img/userImg/3.jpeg"});
+                break;
+            case 4:
+                this.setState({userAvatar: userImg.userImg4});
                 this.setState({userImgPosition: 0});
+                this.setState({pathToAvatar: "../../../../../../assets/img/userImg/4.jpeg"});
                 break;
         }
 
     }
 
     render() {
-        console.log('userImg is ' + typeof this.state.userImg);
         return (
             <div className={styles.regFormContainer}>
             <div className={styles.wrapper}>
@@ -91,10 +107,10 @@ export class RegForm extends Component{
                 <TextInput updateAuthDate = {this.updateAuthDate}/>
                 <PasswordInput updateAuthDate = {this.updateAuthDate}/>
 
-                <img className={styles.userImg} src={ this.state.userImg} onClick={this.toggleUserImg}/>
+                <img className={styles.userImg} src={this.state.userAvatar} onClick={this.toggleUserImg}/>
 
                 <AcceptButton background = {{background: this.buttonColor() }} text = {'Ok'}
-                              submit = {()=>{this.addUser(this.state.login, this.state.email, this.state.password)}}/>
+                              submit = {()=>{this.addUser(this.state.login, this.state.email, this.state.password, this.state.pathToAvatar)}}/>
                 <div className={styles.singLinkContainer}>
                     <h3 className={styles.singLink} onClick={this.goToSign}>sign in</h3>
                 </div>

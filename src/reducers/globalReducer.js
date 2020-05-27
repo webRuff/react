@@ -28,8 +28,13 @@ export const globalReducer = (state = initState, action) => {
           const newLikedPosts = state.laked.push(action.payload);
           return  {...state, laked: newLikedPosts};
       case ActionTypes.setBestPostsAction:
-          const newBestPosts = state.posts.slice().sort((post1, post2) => post1.likesCount > post2.likesCount ? -1 : 1).slice(0,action.payload)
+          const newBestPosts = state.posts.slice().sort((post1, post2) => post1.likesCount > post2.likesCount ? -1 : 1).slice(0,action.payload);
           return  {...state, bestPosts: newBestPosts}
+      case ActionTypes.addSubToUserAction:
+          const newSubs = action.payload;
+      case ActionTypes.removeSubFromUserAction:
+          alert(typeof state.user.mySubs + ' ' + state.user.mySubs);
+          break;
       default:
           return {...state };
   }

@@ -9,13 +9,14 @@ import mapActionsToProps from "../../../../../../actions/mapActionsToProps";
 import UserHelper from "../../../../../../utils/userHelper";
 import axios from 'axios';
 import preStorageProcessing from "../../../../../../utils/preStorageProcessing";
+import {postAuthorToFavorite} from '../../../../../../assets/assets'
 
 
 export default class Post extends Component{
     state = {
         isOpened: false,
         likeCount: this.props.likeCount,
-        isLiked: this.props.isLiked
+        isLiked: this.props.isLiked,
     };
 
     toggleHeightPost = () => {
@@ -77,12 +78,37 @@ export default class Post extends Component{
         }
     }
 
+    subInMongoose = async () => {
+        if(!this.props.mySubIcon) {
+            try {
+                await axios.put('http://localhost:8888/api/users/addSub', {
+                    id: this.props.user["_id"],
+                    newSub: this.props.postAuthor
+                })
+                this.props.addSubtoUser();
+            } catch (e) {
+                console.log(e);
+            }
+        } else {
+            try {
+                await axios.put('http://localhost:8888/api/users/removeSub', {
+                    id: this.props.user["_id"],
+                    sub: this.props.postAuthor
+                })
+                this.props.removeSubFromUser();
+            } catch (e) {
+                console.log(e);
+            }
+        }
+    }
+
     toggleSubIcon = () => {
-        if(!this.props.mySubIcon)
-            return '+'
+        if(this.props.mySubIcon)
+            return postAuthorToFavorite.add;
         else
-            return '-'
+            return postAuthorToFavorite.remove;
     };
+
 
     render() {
         return (
@@ -106,8 +132,8 @@ export default class Post extends Component{
                     <div style={{width: "100%", textAlign: "center"}} onClick={this.toggleHeightPost}>
                 <header>{this.props.self.header}</header>
                         <div className={styles.authorContainer}>
-                            <div>Автор: {this.props.self.postAuthor}</div>
-                            <div >{this.toggleSubIcon()}</div>
+                            <div onClick={this.props.showAuthorPosts} className={styles.postAuthor}>Автор: {this.props.self.postAuthor}</div>
+                            <img alt="toFavorite" src={this.toggleSubIcon()} className={styles.toFavorite} onClick={this.subInMongoose}/>
                         </div>
                 <main>
                     <pre>{this.props.self.content}</pre>

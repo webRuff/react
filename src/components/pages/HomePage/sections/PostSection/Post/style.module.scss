@@ -78,3 +78,20 @@ width: 100%;
   flex-direction: row;
   justify-content: center;
 }
+
+.toFavorite {
+  margin-left: 8px;
+  width: 18px;
+  height: 18px;
+
+  cursor: pointer;
+}
+
+.postAuthor {
+  cursor: pointer;
+}
+
+.userAvatar {
+  height: 100px;
+  width: 100px;
+}

@@ -58,6 +58,19 @@ export default {
             type: ActionTypes.setBestPostsAction,
             payload: bestPosts,
         }
-    }
+    },
+    [ActionTypes.addSubToUserAction](sub){
+        return {
+            type: ActionTypes.addSubToUserAction,
+            payload: sub,
+        }
+    },
+    [ActionTypes.removeSubFromUserAction](sub){
+        return {
+            type: ActionTypes.removeSubFromUserAction,
+            payload: sub,
+        }
+    },
+
 
 }
