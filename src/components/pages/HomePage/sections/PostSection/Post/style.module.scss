@@ -1,6 +1,5 @@
 .wrapper {
 width: 100%;
-
 }
 
 .postWrapper {
@@ -71,6 +70,10 @@ width: 100%;
   color: #000;
 }
 
+.postContainer {
+  display: flex;
+  flex-direction: row;
+}
 .authorContainer {
   width: 100%;
   align-items: center;

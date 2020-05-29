@@ -37,4 +37,10 @@ export default (dispatch) => ({
     removeSubFromUserAction: (sub) => {
         dispatch(actions.removeSubFromUserAction(sub));
     },
+    setHeaderAction: (content) => {
+        dispatch(actions.setHeaderAction(content))
+    },
+    setContentAction: (content) => {
+        dispatch(actions.setContentAction(content))
+    }
 });

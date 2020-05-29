@@ -118,6 +118,18 @@ export class PostSection extends Component {
         this.props.writePosts(authorPosts);
     };
 
+    editPostHeader = (postHeader) => {
+        const tmp = postHeader;
+        this.props.setHeaderAction(tmp);
+        alert('1:' + this.props.postHeader);
+    };
+
+    editPostContent = (postContent) => {
+        this.props.setContentAction(postContent);
+        alert('2:' + this.props.postHeader);
+
+    }
+
     render() {
             this.checkUser();
         return (
@@ -156,17 +168,16 @@ export class PostSection extends Component {
                                       }}
                                       removeSubFromUser = {() => {this.removeSubFromUser(post.postAuthor)
                                       }}
-                                      userAvatar = {this.props.user.userImg}
+                                      userAvatar = {post.authorImg}
+                                      editPostHeader = {() => {this.editPostHeader(post.header)
+                                      }}
+                                      editPostContent = {() => {this.editPostContent(post.content)}}
                                 />);
                         })
                     }
                     <div style={{position: 'fixed', bottom: 30, right: 20, width: 65}}>
                         <RoundButton func = {this.createPost}/>
                     </div>
-                    <div className={styles.postModalWindowIsOpened}>
-                        <ModalWindow/>
-                    </div>
-
                 </section>
             </div>
             </div>

@@ -9,8 +9,8 @@ import concatClasses from "../../../../../../utils/concatClasses";
 
 export class PostModalWindow extends Component {
     state = {
-      postHeader: 'new post',
-      postContent: 'content',
+      postHeader: this.props.postHeader,
+      postContent: this.props.postContent,
     };
 
     createPostOk = async (postHeader, postContent ) => {
@@ -20,6 +20,7 @@ export class PostModalWindow extends Component {
                 header: postHeader,
                 content: postContent,
                 postAuthor: this.props.user.name,
+                authorImg: this.props.user.userImg,
             });
             pushLocation('/home');
         }
@@ -29,7 +30,12 @@ export class PostModalWindow extends Component {
     };
 
     createPostCancel = () => {
-        pushLocation('/home');
+        /*pushLocation('/home');
+        const tmp = 'ff';
+        this.props.setHeaderAction(tmp);
+        this.props.setContentAction(tmp)*/;
+
+        alert(this.props.posts[2].header);
     };
 
     addHeaderToPost = (event) => {
@@ -50,10 +56,12 @@ export class PostModalWindow extends Component {
                     <div>Заголовок</div>
                     <input className={styles.inputHeader}
                            onChange={this.addHeaderToPost}
+                           value={this.state.postHeader}
                     />
                     <div>Содержание</div>
                     <textarea className={styles.inputContent}
                             onChange={this.addContentToPost}
+                            value={this.state.postContent}
                     />
                 </div>
 
@@ -67,6 +75,10 @@ export class PostModalWindow extends Component {
 
         </div>
     )
+}
+
+componentDidMount() {
+        alert(this.props.postHeader);
 }
 
 }

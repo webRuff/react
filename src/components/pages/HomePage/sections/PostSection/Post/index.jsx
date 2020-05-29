@@ -10,6 +10,7 @@ import UserHelper from "../../../../../../utils/userHelper";
 import axios from 'axios';
 import preStorageProcessing from "../../../../../../utils/preStorageProcessing";
 import {postAuthorToFavorite} from '../../../../../../assets/assets'
+import pushLocation from "../../../../../../utils/pushLocation";
 
 
 export default class Post extends Component{
@@ -109,6 +110,11 @@ export default class Post extends Component{
             return postAuthorToFavorite.remove;
     };
 
+    editPost = () => {
+        this.props.editPostHeader();
+        this.props.editPostContent();
+        pushLocation('/createPost')
+    }
 
     render() {
         return (
@@ -122,25 +128,29 @@ export default class Post extends Component{
                                  onClick={this.likeCounter}
                             />
                             <img alt = "commentPostIcon" src={require("../../../../../../assets/img/icons/editPost.png")}
-                                 className={styles.postIcons}/>
+                                 className={styles.postIcons}
+                                 onClick={this.editPost}
+                            />
                             <img alt = "deletePostIcon" src={require("../../../../../../assets/img/icons/deletePost.png")}
                                  className={styles.postIcons}
                                  onClick={this.props.cb}
                             />
                         </div>
                     </div>
-                    <div style={{width: "100%", textAlign: "center"}} onClick={this.toggleHeightPost}>
-                <header>{this.props.self.header}</header>
-                        <div className={styles.authorContainer}>
-                            <div onClick={this.props.showAuthorPosts} className={styles.postAuthor}>Автор: {this.props.self.postAuthor}</div>
-                            <img alt="toFavorite" src={this.toggleSubIcon()} className={styles.toFavorite} onClick={this.subInMongoose}/>
+                    <div className={styles.postContainer}>
+                        <img className={styles.userAvatar} src={"data:image/png;base64," + this.props.userAvatar}/>
+                        <div style={{width: "100%", textAlign: "center"}} onClick={this.toggleHeightPost}>
+                            <header>{this.props.self.header}</header>
+                                <div className={styles.authorContainer}>
+                                    <div onClick={this.props.showAuthorPosts} className={styles.postAuthor}>Автор: {this.props.self.postAuthor}</div>
+                                    <img alt="toFavorite" src={this.toggleSubIcon()} className={styles.toFavorite} onClick={this.subInMongoose}/>
+                                </div>
+                            <main>
+                                <pre>{this.props.self.content}</pre>
+                            </main>
                         </div>
-                <main>
-                    <pre>{this.props.self.content}</pre>
-                </main>
                     </div>
-            </article>
-
+                </article>
             </div>
         )
     }

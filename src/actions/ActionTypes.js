@@ -12,4 +12,6 @@ export default {
     setBestPostsAction: "setBestPostsAction",
     addSubToUserAction: "addSubToUserAction",
     removeSubFromUserAction: "removeSubFromUserAction",
+    setHeaderAction: "setHeaderAction",
+    setContentAction: "setContentAction",
 }

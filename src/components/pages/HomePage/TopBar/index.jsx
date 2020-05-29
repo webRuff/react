@@ -4,6 +4,7 @@ import {connect} from "react-redux"
 import mapStateToProps from "../../../../reducers/mapStateToProps";
 import mapActionsToProps from "../../../../actions/mapActionsToProps";
 import { Link } from 'react-router-dom'
+import pushLocation from "../../../../utils/pushLocation";
 
 class TopBar extends Component{
 
@@ -11,10 +12,11 @@ class TopBar extends Component{
         const {user, unsetUserAction} = this.props;
         return (
             <header className={styles.wrapper}>
-                <div>{user.name}</div>
-                <Link to='/'>
+                <div className={styles.userContainer}>
+                <img src={"data:image/png;base64," + user.userImg} className={styles.userAvatar}/>
+                <div style={{padding: "0 10px"}}>{user.name}</div>
+                </div>
                     <div onClick={unsetUserAction} className={styles.logOut}>Logout</div>
-                </Link>
             </header>
         )
     }

@@ -15,9 +15,9 @@ export class RegForm extends Component{
         login: '',
         email: '',
         password: '',
-        userAvatar: userImg.userImg2,
-        userImgPosition: 0,
-        pathToAvatar: "../../../../../../assets/img/userImg/0.jpeg"
+        userAvatar: userImg.unknown,
+        userImgPosition: 1,
+        pathToAvatar: userImg.unknown,
     };
 
     updateAuthDate = (event, nameState) => {
@@ -35,12 +35,12 @@ export class RegForm extends Component{
             'rgba(224,218,218,0.2)';
     };
 
-    addUser = async (login, email, password, pathToAvatar) => {
+    addUser = async (login, email, password, userAvatar) => {
             await axios.post('http://localhost:8888/api/signup', {
                 name: login,
                 email: email,
                 password: password,
-                userImg: pathToAvatar,
+                userImg: userAvatar,
             })
             const {data: {user} } = await axios.post('http://localhost:8888/api/signin',{
                 email: email,
@@ -70,27 +70,27 @@ export class RegForm extends Component{
             case 0:
                 this.setState({userAvatar: userImg.unknown});
                 this.setState({userImgPosition: 1});
-                this.setState({pathToAvatar: "../../../../../../assets/img/userImg/0.jpeg"});
+                this.setState({pathToAvatar: userImg.unknown});
                 break;
             case 1:
                 this.setState({userAvatar: userImg.userImg1});
                 this.setState({userImgPosition: 2});
-                this.setState({pathToAvatar: "../../../../../../assets/img/userImg/1.jpeg"});
+                this.setState({pathToAvatar: userImg.userImg1});
                 break;
             case 2:
                 this.setState({userAvatar: userImg.userImg2});
                 this.setState({userImgPosition: 3});
-                this.setState({pathToAvatar: "../../../../../../assets/img/userImg/2.jpeg"});
+                this.setState({pathToAvatar: userImg.userImg2});
                 break;
             case 3:
                 this.setState({userAvatar: userImg.userImg3});
                 this.setState({userImgPosition: 4});
-                this.setState({pathToAvatar: "../../../../../../assets/img/userImg/3.jpeg"});
+                this.setState({pathToAvatar: userImg.userImg3});
                 break;
             case 4:
                 this.setState({userAvatar: userImg.userImg4});
                 this.setState({userImgPosition: 0});
-                this.setState({pathToAvatar: "../../../../../../assets/img/userImg/4.jpeg"});
+                this.setState({pathToAvatar: userImg.userImg4});
                 break;
         }
 
@@ -107,10 +107,10 @@ export class RegForm extends Component{
                 <TextInput updateAuthDate = {this.updateAuthDate}/>
                 <PasswordInput updateAuthDate = {this.updateAuthDate}/>
 
-                <img className={styles.userImg} src={this.state.userAvatar} onClick={this.toggleUserImg}/>
+                <img className={styles.userImg} src={"data:image/png;base64," + this.state.userAvatar} onClick={this.toggleUserImg}/>
 
                 <AcceptButton background = {{background: this.buttonColor() }} text = {'Ok'}
-                              submit = {()=>{this.addUser(this.state.login, this.state.email, this.state.password, this.state.pathToAvatar)}}/>
+                              submit = {()=>{this.addUser(this.state.login, this.state.email, this.state.password, this.state.userAvatar)}}/>
                 <div className={styles.singLinkContainer}>
                     <h3 className={styles.singLink} onClick={this.goToSign}>sign in</h3>
                 </div>

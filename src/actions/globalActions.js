@@ -3,7 +3,7 @@ import ActionTypes from "./ActionTypes";
 
 export default {
     [ActionTypes.setUserAction](user){
-        localStorage.setItem('user', preStorageProcessing.toString(user)); //как работает?
+        localStorage.setItem('user', preStorageProcessing.toString(user));
         return {type: ActionTypes.setUserAction, payload: user}
     },
 
@@ -71,6 +71,18 @@ export default {
             payload: sub,
         }
     },
+    [ActionTypes.setHeaderAction](header){
+        return {
+            type: ActionTypes.setHeaderAction,
+            payload: header,
+        }
+    },
+    [ActionTypes.setContentAction](content){
+        return {
+            type: ActionTypes.setContentAction,
+            payload: content,
+        }
+    }
 
 
 }
